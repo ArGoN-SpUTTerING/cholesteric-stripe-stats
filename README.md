@@ -116,9 +116,18 @@ The reported values do not depend on any single implementation:
 | R 4.6.1, `kruskal.test` / `wilcox.test` | 310.5411 | 156.5 |
 | Textbook formula, computed by hand | 310.5411 | 156.5 |
 
-*p*-values agree to within the third significant digit; the small differences
-come from how each implementation applies the tie correction and do not affect
-any conclusion.
+The two statistics above are identical. Seven of the eight *p*-values agree to
+four significant figures. The exception is Mann–Whitney at 5 wt.-%: SciPy gives
+7.893 × 10⁻¹⁵ and R 7.994 × 10⁻¹⁵, a difference of 1.3 %.
+
+That gap is floating-point rounding, not a difference in method. R forms the
+two-sided *p* as 2 × (1 − Φ(*z*)). At *z* = 7.769 the true upper tail is
+3.9465 × 10⁻¹⁵, but doubles near 1.0 are spaced 2.2204 × 10⁻¹⁶ apart, so the
+tail occupies 17.8 of those steps and the subtraction can only return 18 of
+them — 3.9968 × 10⁻¹⁵, which doubles to exactly the 7.9936 × 10⁻¹⁵ that R
+reports. SciPy evaluates the upper tail directly with `sf()` and never performs
+that subtraction, so its value is the more accurate of the two. Both are of
+order 10⁻¹⁵ and nothing depends on the difference.
 
 ---
 
@@ -132,7 +141,8 @@ two things.
 
 The clustering is visible in the data alone: the lag-1 autocorrelation of the
 measurement columns is 0.28–0.79, against ~0 for a random ordering (one
-standard error is 0.09).
+standard error is 1/√n, i.e. 0.089 for the n = 126 columns and 0.115 for the
+smallest, n = 75).
 
 Samples were measured one at a time, so a sample's measurements are contiguous
 in the file, and different samples contributed different numbers of
@@ -142,9 +152,9 @@ in for one sample, over 2000 random partitions per *K*.
 
 The Kruskal–Wallis result is significant in 100 % of partitions at every *K*
 from 4 to 8. The Mann–Whitney comparison of pure DLPC against pure DOPC is
-significant in 100 % of partitions at 2.8 wt.-% CB15 and 91–97 % at 5 wt.-%,
-but in only 10–12 % at 10 wt.-%. The manuscript reports that comparison for the
-two longer pitches only.
+significant in 100 % of partitions at 2.8 wt.-% CB15, in 67 % at *K* = 4 and
+91–99.8 % at *K* = 5–8 at 5 wt.-%, but in only 8–19 % at 10 wt.-%. The
+manuscript reports that comparison for the two longer pitches only.
 
 **One choice remains mine.** `MIN_BLOCK`, the fewest measurements a sample may
 contribute, is set to 8. Part 4 of the script shows its effect (percentage of

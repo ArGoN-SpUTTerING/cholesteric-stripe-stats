@@ -169,8 +169,8 @@ def main():
         a, b = med[k]
         print(f"    {k:>4} wt.-%   medians {a:.3f} vs {b:.3f} um  "
               f"({100*(b/a-1):+.0f} %)")
-    print("    At 2.8 wt.-% the two are so well separated that every random")
-    print("    partition gives the same p, the minimum attainable at that K.")
+    print("    At 2.8 wt.-% the two are so well separated that p < 0.05 in 100 %")
+    print("    of partitions, 98.5-99.6 % of them at the minimum for that K.")
     print("    At 5 wt.-% the difference holds in most partitions. At 10 wt.-%")
     print("    it holds in few, and never in a majority for any setting tested")
     print("    (see part 4). The text therefore reports the difference for the")
