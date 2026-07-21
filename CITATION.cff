@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "cholesteric-stripe-stats: statistical analysis of cholesteric stripe spacings"
+authors:
+  - family-names: "Li"
+    given-names: "Mengwei"
+version: 1.0.0
+date-released: 2026-07-21
+license: MIT
+repository-code: "https://github.com/ArGoN-SpUTTerING/cholesteric-stripe-stats"
+abstract: >-
+  Kruskal-Wallis and Mann-Whitney U tests on cholesteric fingerprint stripe
+  spacings measured at lipid-decorated liquid crystal-water interfaces,
+  implemented with standard library functions in both Python/SciPy and base R
+  so that every reported value is reproduced by two independent
+  implementations. A companion script recomputes both tests with the sample
+  rather than the individual measurement as the statistical unit. The raw
+  measurements are deposited separately on DataverseNL.
+keywords:
+  - liquid-crystals
+  - cholesteric
+  - non-parametric-statistics
+  - reproducibility
+  - kruskal-wallis
+  - mann-whitney
