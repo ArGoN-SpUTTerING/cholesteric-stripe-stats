@@ -189,7 +189,12 @@ def main():
     print("=" * 76)
     print("  Test 1: p < 0.001 for all five compositions.")
     print("  Test 2: p < 0.001 at all three CB15 concentrations.")
-    print("  Both statements in the manuscript are supported by these data.")
+    print()
+    print("  These p-values treat each measurement as one observation. The")
+    print("  measurements are clustered within samples, and on a sample-level")
+    print("  recomputation Test 1 is unchanged while Test 2 holds only at 2.8")
+    print("  and 5 wt.-% CB15. The manuscript reports Test 2 for those two")
+    print("  pitches only; see the note on the statistical unit in README.md.")
 
 
 if __name__ == "__main__":

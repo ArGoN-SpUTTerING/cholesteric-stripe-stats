@@ -50,4 +50,9 @@ SUMMARY
 ==============================================================
   Test 1: p < 0.001 for all five compositions.
   Test 2: p < 0.001 at all three CB15 concentrations.
-  Both statements in the manuscript are supported by these data.
+
+  These p-values treat each measurement as one observation. The
+  measurements are clustered within samples, and on a sample-level
+  recomputation Test 1 is unchanged while Test 2 holds only at 2.8
+  and 5 wt.-% CB15. The manuscript reports Test 2 for those two
+  pitches only; see the note on the statistical unit in README.md.
