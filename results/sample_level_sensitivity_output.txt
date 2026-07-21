@@ -67,6 +67,26 @@
       10 wt.-%   medians 0.353 vs 0.467 um  (+32 %)
     At 2.8 wt.-% the two are so well separated that every random
     partition gives the same p, the minimum attainable at that K.
-    At 5 wt.-% the difference holds in ~90-97 % of partitions. At
-    10 wt.-% only ~10 % of partitions reach p < 0.05. The text
-    therefore reports the difference for the two longer pitches only.
+    At 5 wt.-% the difference holds in most partitions. At 10 wt.-%
+    it holds in few, and never in a majority for any setting tested
+    (see part 4). The text therefore reports the difference for the
+    two longer pitches only.
+
+==============================================================================
+4.  SENSITIVITY TO MIN_BLOCK (currently 8)
+==============================================================================
+  MIN_BLOCK is a choice, not a measurement, so its effect is shown here.
+  Percentage of 1000 random partitions reaching p < 0.05, at K = 5.
+
+   MIN   KW worst    MW 2.8      MW 5     MW 10
+     3      100 %      100 %       84 %       22 %
+     5      100 %      100 %       87 %       17 %
+     8      100 %      100 %       90 %       11 %
+    12      100 %      100 %       96 %        4 %
+    15      100 %      100 %       99 %        1 %
+
+  Kruskal-Wallis and the 2.8 wt.-% comparison are unaffected. The
+  5 wt.-% comparison holds throughout. The 10 wt.-% figure does move
+  with MIN_BLOCK, but stays far below a majority at every setting, and
+  falls further as MIN_BLOCK rises towards the realistic value implied
+  by 75-126 measurements spread over 5-6 samples.

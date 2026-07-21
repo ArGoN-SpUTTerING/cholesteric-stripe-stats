@@ -146,6 +146,23 @@ significant in 100 % of partitions at 2.8 wt.-% CB15 and 91–97 % at 5 wt.-%,
 but in only 10–12 % at 10 wt.-%. The manuscript reports that comparison for the
 two longer pitches only.
 
+**One choice remains mine.** `MIN_BLOCK`, the fewest measurements a sample may
+contribute, is set to 8. Part 4 of the script shows its effect (percentage of
+1000 partitions reaching *p* < 0.05, *K* = 5):
+
+| MIN_BLOCK | KW worst | MW 2.8 | MW 5 | MW 10 |
+|---|---|---|---|---|
+| 3 | 100 % | 100 % | 84 % | 22 % |
+| 5 | 100 % | 100 % | 87 % | 17 % |
+| 8 | 100 % | 100 % | 90 % | 11 % |
+| 12 | 100 % | 100 % | 96 % | 4 % |
+| 15 | 100 % | 100 % | 99 % | 1 % |
+
+Kruskal–Wallis and the 2.8 wt.-% comparison are untouched by it, and the
+5 wt.-% comparison holds throughout. The 10 wt.-% figure does move, but stays
+far below a majority at every setting and falls further as `MIN_BLOCK`
+approaches the value implied by 75–126 measurements over 5–6 samples.
+
 ## Distribution widths
 
 Coefficients of variation are reported for every group by

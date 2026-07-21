@@ -76,17 +76,18 @@ def acf1(v):
     return num / sum((x - m) ** 2 for x in v)
 
 
-def random_blocks(v, K):
+def random_blocks(v, K, min_block=None):
     """Median of each of K contiguous blocks of random, unequal size."""
+    MIN_BLOCK_ = MIN_BLOCK if min_block is None else min_block
     n = len(v)
-    if n < K * MIN_BLOCK:
+    if n < K * MIN_BLOCK_:
         return None
-    extra = n - K * MIN_BLOCK
+    extra = n - K * MIN_BLOCK_
     cuts = sorted(random.randint(0, extra) for _ in range(K - 1))
     edges = [0] + cuts + [extra]
     out, p = [], 0
     for i in range(K):
-        size = MIN_BLOCK + edges[i + 1] - edges[i]
+        size = MIN_BLOCK_ + edges[i + 1] - edges[i]
         out.append(st.median(v[p:p + size]))
         p += size
     return out
@@ -170,9 +171,44 @@ def main():
               f"({100*(b/a-1):+.0f} %)")
     print("    At 2.8 wt.-% the two are so well separated that every random")
     print("    partition gives the same p, the minimum attainable at that K.")
-    print("    At 5 wt.-% the difference holds in ~90-97 % of partitions. At")
-    print("    10 wt.-% only ~10 % of partitions reach p < 0.05. The text")
-    print("    therefore reports the difference for the two longer pitches only.")
+    print("    At 5 wt.-% the difference holds in most partitions. At 10 wt.-%")
+    print("    it holds in few, and never in a majority for any setting tested")
+    print("    (see part 4). The text therefore reports the difference for the")
+    print("    two longer pitches only.")
+
+    print("\n" + "=" * 78)
+    print(f"4.  SENSITIVITY TO MIN_BLOCK (currently {MIN_BLOCK})")
+    print("=" * 78)
+    print("  MIN_BLOCK is a choice, not a measurement, so its effect is shown here.")
+    print("  Percentage of 1000 random partitions reaching p < 0.05, at K = 5.\n")
+    print(f"  {'MIN':>4}{'KW worst':>11}{'MW 2.8':>10}{'MW 5':>10}{'MW 10':>10}")
+    for MB in (3, 5, 8, 12, 15):
+        random.seed(SEED)
+        hit = {"kw": 0, "0": 0, "1": 0, "2": 0}
+        runs = 0
+        for _ in range(1000):
+            b = {key: random_blocks(v, 5, MB) for key, v in G.items()}
+            if any(x is None for x in b.values()):
+                break
+            runs += 1
+            if max(stats.kruskal(*[b[(c, k)] for k in CONC])[1]
+                   for c in COMP) < 0.05:
+                hit["kw"] += 1
+            for idx, k in enumerate(CONC):
+                if stats.mannwhitneyu(b[("DLPC", k)], b[("DOPC", k)],
+                                      alternative="two-sided")[1] < 0.05:
+                    hit[str(idx)] += 1
+        if not runs:
+            print(f"  {MB:>4}   too few measurements for 5 blocks of {MB}")
+            continue
+        print(f"  {MB:>4}" + "".join(f"{100*hit[x]/runs:>9.0f} %"
+                                     for x in ("kw", "0", "1", "2")))
+    print()
+    print("  Kruskal-Wallis and the 2.8 wt.-% comparison are unaffected. The")
+    print("  5 wt.-% comparison holds throughout. The 10 wt.-% figure does move")
+    print("  with MIN_BLOCK, but stays far below a majority at every setting, and")
+    print("  falls further as MIN_BLOCK rises towards the realistic value implied")
+    print("  by 75-126 measurements spread over 5-6 samples.")
 
 
 if __name__ == "__main__":
