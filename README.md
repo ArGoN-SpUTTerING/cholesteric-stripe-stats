@@ -134,13 +134,17 @@ The clustering is visible in the data alone: the lag-1 autocorrelation of the
 measurement columns is 0.28–0.79, against ~0 for a random ordering (one
 standard error is 0.09).
 
-Cutting each column into *K* equal contiguous blocks and using block medians as
-sample values, the Kruskal–Wallis result is significant at every *K* from 3 to
-12 — at *K* = 5 its *p* of 0.0019 is the smallest value attainable with five
-samples per group. The Mann–Whitney comparison of pure DLPC against pure DOPC
-holds at 2.8 and 5 wt.-% CB15 but not at 10 wt.-%, where the sample-level *p*
-is 0.06–0.34. The manuscript reports that comparison for the two longer pitches
-only.
+Samples were measured one at a time, so a sample's measurements are contiguous
+in the file, and different samples contributed different numbers of
+measurements; the boundaries are not recorded. Each column is therefore split
+into *K* contiguous blocks of random unequal size, the median of each standing
+in for one sample, over 2000 random partitions per *K*.
+
+The Kruskal–Wallis result is significant in 100 % of partitions at every *K*
+from 4 to 8. The Mann–Whitney comparison of pure DLPC against pure DOPC is
+significant in 100 % of partitions at 2.8 wt.-% CB15 and 91–97 % at 5 wt.-%,
+but in only 10–12 % at 10 wt.-%. The manuscript reports that comparison for the
+two longer pitches only.
 
 ## Distribution widths
 

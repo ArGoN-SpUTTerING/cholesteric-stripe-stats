@@ -15,42 +15,58 @@
 ==============================================================================
 2.  SENSITIVITY:  p-values when the unit is the sample, not the measurement
 ==============================================================================
-  Each column is cut into K equal contiguous blocks; the median of each
-  block stands in for one sample. K is swept because the true sample of
-  origin is not recorded.
+  Samples were measured one at a time and contributed unequal numbers
+  of measurements, so each column is split into K contiguous blocks of
+  random unequal size (>= 8 each). 2000 random partitions per K.
 
-    K |  Kruskal-Wallis |   Mann-Whitney U, pure DLPC vs pure DOPC
-      |    (worst of 5) |     2.8 wt.-%      5 wt.-%     10 wt.-%
-  --------------------------------------------------------------------------
-    3 |         0.0273* |       0.1000       0.1000       0.4000 
-    4 |         0.0073* |       0.0286*      0.0286*      0.3429 
-    5 |         0.0019* |       0.0079*      0.0159*      0.1508 
-    6 |         0.0006* |       0.0022*      0.0043*      0.1797 
-    7 |         0.0002* |       0.0006*      0.0111*      0.2243 
-    8 |         0.0001* |       0.0002*      0.0006*      0.0585 
-    9 |         0.0000* |       0.0004*      0.0047*      0.0774 
-   10 |         0.0000* |       0.0002*      0.0046*      0.0695 
-   11 |         0.0000* |       0.0001*      0.0009*      0.1006 
-   12 |         0.0000* |       0.0000*      0.0029*      0.0351*
-  --------------------------------------------------------------------------
-  * p < 0.05
+    K  test           median p   5th pct  95th pct  p < 0.05
+  ------------------------------------------------------------
+    4  KW worst         0.0073    0.0073    0.0125     100%
+       MW 2.8           0.0286    0.0286    0.0286     100%
+       MW 5             0.0286    0.0286    0.1143      67%
+       MW 10            0.2000    0.0286    0.6857       8%
+
+    5  KW worst         0.0025    0.0019    0.0031     100%
+       MW 2.8           0.0079    0.0079    0.0079     100%
+       MW 5             0.0159    0.0079    0.0556      91%
+       MW 10            0.2222    0.0317    0.6905      12%
+
+    6  KW worst         0.0006    0.0005    0.0009     100%
+       MW 2.8           0.0022    0.0022    0.0022     100%
+       MW 5             0.0087    0.0022    0.0411      97%
+       MW 10            0.1762    0.0260    0.5887      10%
+
+    7  KW worst         0.0002    0.0001    0.0002     100%
+       MW 2.8           0.0006    0.0006    0.0006     100%
+       MW 5             0.0041    0.0012    0.0262      98%
+       MW 10            0.1282    0.0379    0.4557       9%
+
+    8  KW worst         0.0001    0.0000    0.0001     100%
+       MW 2.8           0.0002    0.0002    0.0002     100%
+       MW 5             0.0030    0.0006    0.0207     100%
+       MW 10            0.1304    0.0281    0.3282      19%
 
   For comparison, per measurement (what the manuscript reports):
-      |         3.5e-56 |       1.0e-40      7.9e-15      8.7e-08
+       KW worst        3.5e-56
+       MW 2.8          1.0e-40
+       MW 5            7.9e-15
+       MW 10           8.7e-08
 
 ==============================================================================
 3.  WHAT THIS MEANS FOR THE TEXT
 ==============================================================================
   Kruskal-Wallis (pitch controls stripe spacing)
-    Significant at every K tested. At K = 5 the p-value is 0.0019,
-    which is the smallest value attainable with five samples per
-    group -- the blocks separate completely. The conclusion does not
-    depend on the choice of statistical unit.
+    Significant in 100 % of random partitions at every K. At K = 5 the
+    median p of 0.0025 is close to 0.0019, the smallest value attainable
+    with five samples per group, so the blocks separate almost completely.
+    The conclusion does not depend on the choice of statistical unit.
 
   Mann-Whitney (pure DLPC vs pure DOPC)
      2.8 wt.-%   medians 2.462 vs 4.813 um  (+95 %)
        5 wt.-%   medians 0.960 vs 0.777 um  (-19 %)
       10 wt.-%   medians 0.353 vs 0.467 um  (+32 %)
-    The difference is large at 2.8 wt.-% and survives at 5 wt.-%, but
-    at 10 wt.-% it is not significant at any K below 12. The text
+    At 2.8 wt.-% the two are so well separated that every random
+    partition gives the same p, the minimum attainable at that K.
+    At 5 wt.-% the difference holds in ~90-97 % of partitions. At
+    10 wt.-% only ~10 % of partitions reach p < 0.05. The text
     therefore reports the difference for the two longer pitches only.
