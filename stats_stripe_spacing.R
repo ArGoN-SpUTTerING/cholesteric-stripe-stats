@@ -46,7 +46,7 @@
 if (!file.exists("data/pitch_series.txt")) {
   stop("Raw measurements not found: data/pitch_series.txt\n",
        "  They are deposited on Dataverse rather than in this repository\n",
-       "  (see the DOI in README.md). Download them into data/ and re-run;\n",
+       "  (see the DOI in README.md). Download into data/ and re-run;\n",
        "  no change to any script is needed.", call. = FALSE)
 }
 

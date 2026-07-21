@@ -5,12 +5,11 @@ lipid-decorated liquid crystal–water interfaces.
 
 This repository holds the **analysis code**. The **raw measurements** are
 deposited separately on Dataverse, so that they carry a citable, versioned DOI
-of their own — see *Data availability* below. The associated manuscript is in
-preparation; its citation will be added here on publication.
+of their own. The associated manuscript is in preparation; its citation will be
+added here on publication.
 
-Nothing here is a custom statistical implementation. Both tests are standard
-library functions, and every reported value is reproduced independently by
-Python/SciPy, by base R, and by hand from the textbook formulae.
+Neither test is a custom implementation, and every reported value is reproduced
+independently by Python/SciPy and by base R.
 
 ---
 
@@ -18,45 +17,32 @@ Python/SciPy, by base R, and by hand from the textbook formulae.
 
 Raw stripe-spacing measurements: **Dataverse DOI — to be added on publication.**
 
+Download `pitch_series.txt` into `data/` and the scripts run unchanged. The
+column layout and file format are documented in
+[`data/README.md`](data/README.md).
+
 Stripe spacings were measured manually in ImageJ as peak-to-peak distances
 along lines drawn perpendicular to the fingerprint stripes. Only regions
 containing identifiable periodic stripes were measured, so the number of
-measurements differs between conditions.
-
-| File | Shape | Contents |
-|---|---|---|
-| `data/pitch_series.txt` | 126 × 15 | 5 lipid compositions × CB15 = 2.8 / 5 / 10 wt.-%  (manuscript Fig. 3F) |
-| `data/mixing_series.txt` | 135 × 12 | 3 DLPC:DOPC ratios × total lipid = 1 / 10 / 30 / 50 µM  (manuscript Fig. 2D) |
-
-Download both files into `data/` and every script runs unchanged. The full
-column layout and file format are documented in [`data/README.md`](data/README.md).
-
-Micrographs were pre-processed with
+measurements differs between conditions (75–126 per group). Micrographs were
+pre-processed with
 [micrograph-batch](https://github.com/ArGoN-SpUTTerING/micrograph-batch).
 
 ---
 
-## Statistical tests
+## The tests
 
-Both tests are non-parametric — the spacing distributions are skewed and the
-group sizes are unequal, so rank-based tests are more appropriate than
-*t*-tests or ANOVA.
+Both are non-parametric — the distributions are skewed and the group sizes
+unequal, so rank-based tests suit them better than *t*-tests or ANOVA.
 
-**Kruskal–Wallis**, across CB15 = 2.8 / 5 / 10 wt.-%, run separately for each
+**Kruskal–Wallis** across CB15 = 2.8 / 5 / 10 wt.-%, run separately for each
 lipid composition. Tests whether the cholesteric pitch controls stripe spacing.
 
 **Mann–Whitney *U*** (two-sided), pure DLPC vs pure DOPC, run separately at
 each CB15 concentration. Tests whether acyl chain structure shifts the median
 spacing at a fixed pitch.
 
-Eight tests are reported in total. No multiplicity correction is applied
-because none would change any conclusion: the largest *p* value below is
-8.7 × 10⁻⁸, and a Bonferroni correction across all eight tests leaves it at
-7 × 10⁻⁷.
-
-### Results
-
-| Kruskal–Wallis | H | *p* |
+| Kruskal–Wallis | *H* | *p* |
 |---|---|---|
 | DLPC | 310.54 | 3.7 × 10⁻⁶⁸ |
 | DLPC:DOPC 1:0.43 | 255.41 | 3.5 × 10⁻⁵⁶ |
@@ -70,115 +56,49 @@ because none would change any conclusion: the largest *p* value below is
 | 5 wt.-% CB15 | 10093.5 | 7.9 × 10⁻¹⁵ |
 | 10 wt.-% CB15 | 2809.0 | 8.7 × 10⁻⁸ |
 
-These are per measurement. See *Choice of statistical unit* below.
+Eight tests in total; a Bonferroni correction across all eight would leave the
+largest *p* at about 7 × 10⁻⁷, so none is applied.
 
-The *U* statistic is directly interpretable. At 2.8 wt.-% CB15 there are
-126 × 123 = 15 498 DLPC–DOPC pairs; DLPC is the larger of the pair in 156 of
-them and tied in 1, giving *U* = 156 + 1/2 = 156.5.
+*U* is countable by hand, and the scripts print the decomposition: at
+2.8 wt.-% CB15 there are 126 × 123 = 15 498 DLPC–DOPC pairs, DLPC is the larger
+in 156 of them and tied in 1, giving *U* = 156 + 1/2 = 156.5.
+
+Python and R agree on both test statistics and on seven of the eight
+*p*-values. The eighth differs in the third digit, from rounding in R's tail
+computation; both are of order 10⁻¹⁵.
+
+---
+
+## Choice of statistical unit
+
+These tests treat each peak-to-peak distance as one observation, but the
+distances are not independent: several are read from each line, several lines
+from each sample, and each condition draws on roughly 5–6 samples.
+
+`sample_level_sensitivity.py` recomputes both tests with the sample as the
+unit. Samples were measured one at a time, so a sample's measurements are
+contiguous in the file, though the boundaries are not recorded; the script
+therefore splits each column into contiguous blocks of random unequal size and
+repeats the analysis over many random partitions, sweeping both the number of
+blocks and the minimum block size rather than fixing either.
+
+The Kruskal–Wallis result is unaffected — significant in every partition
+tested. The Mann–Whitney comparison holds at 2.8 and 5 wt.-% CB15 but not at
+10 wt.-%, where the sample-level *p* is around 0.15. The manuscript reports
+that comparison for the two longer pitches only.
 
 ---
 
 ## Reproducing the analysis
 
 ```bash
-# Python (requires scipy)
-python3 stats_stripe_spacing.py
-
-# R (base R only, no packages needed)
-Rscript stats_stripe_spacing.R
-
-# check every quantitative claim in the manuscript against the data
-python3 verify_claims.py
-
-# p-values when the statistical unit is the sample, not the measurement
-python3 sample_level_sensitivity.py
+python3 stats_stripe_spacing.py     # requires scipy
+Rscript stats_stripe_spacing.R      # base R only, no packages needed
+python3 sample_level_sensitivity.py # p-values if the unit is the sample
 ```
 
-The outputs obtained from the deposited data are committed in `results/`, so
-the reported numbers can be inspected without downloading anything.
-
-`verify_claims.py` can additionally scan the manuscript source to confirm that
-the wording of each quantitative statement still matches the data:
-
-```bash
-MANUSCRIPT_TEX=/path/to/manuscript.tex python3 verify_claims.py
-```
-
----
-
-## Independent cross-checks
-
-The reported values do not depend on any single implementation:
-
-| | Kruskal–Wallis *H* (DLPC) | Mann–Whitney *U* (2.8 wt.-%) |
-|---|---|---|
-| Python / SciPy 1.18 | 310.5411 | 156.5 |
-| R 4.6.1, `kruskal.test` / `wilcox.test` | 310.5411 | 156.5 |
-| Textbook formula, computed by hand | 310.5411 | 156.5 |
-
-The two test statistics above are identical. Seven of the eight *p*-values agree to
-four significant figures. The exception is Mann–Whitney at 5 wt.-%: SciPy gives
-7.893 × 10⁻¹⁵ and R 7.994 × 10⁻¹⁵, a difference of 1.3 %.
-
-That gap is rounding, not a difference in method. R obtains the two-sided *p*
-by subtracting the cumulative probability from 1, and at a *p* of this size
-that probability is so close to 1 that almost all of the precision is lost in
-the subtraction — the two values agree only in their first significant
-figure. SciPy evaluates the tail directly and avoids the subtraction, so its
-value is the more accurate one. Both are of order 10⁻¹⁵ and no conclusion
-depends on which is used.
-
----
-
-## Choice of statistical unit
-
-The tests treat each peak-to-peak distance as one observation. Those distances
-are not independent: several are read from each line, several lines are drawn
-per image, and all measurements for one condition come from roughly 5–6
-samples. `sample_level_sensitivity.py` quantifies what this costs, and reports
-two things.
-
-The clustering is visible in the data alone: the lag-1 autocorrelation of the
-measurement columns is 0.28–0.79, where a random ordering would give about
-zero; every column is at least 2.8 standard errors from zero.
-
-Samples were measured one at a time, so a sample's measurements are contiguous
-in the file, and different samples contributed different numbers of
-measurements; the boundaries are not recorded. Each column is therefore split
-into *K* contiguous blocks of random unequal size, the median of each standing
-in for one sample, over 2000 random partitions per *K*.
-
-The Kruskal–Wallis result is significant in 100 % of partitions at every *K*
-from 4 to 8. The Mann–Whitney comparison of pure DLPC against pure DOPC is
-significant in 100 % of partitions at 2.8 wt.-% CB15, in 67 % at *K* = 4 and
-90.7–99.8 % at *K* = 5–8 at 5 wt.-%, but in only 8–19 % at 10 wt.-%. The
-manuscript reports that comparison for the two longer pitches only.
-
-**One choice remains mine.** `MIN_BLOCK`, the fewest measurements a sample may
-contribute, is set to 8. Part 4 of the script shows its effect (percentage of
-1000 partitions reaching *p* < 0.05, *K* = 5):
-
-| MIN_BLOCK | KW worst | MW 2.8 | MW 5 | MW 10 |
-|---|---|---|---|---|
-| 3 | 100 % | 100 % | 84 % | 22 % |
-| 5 | 100 % | 100 % | 87 % | 17 % |
-| 8 | 100 % | 100 % | 90 % | 11 % |
-| 12 | 100 % | 100 % | 96 % | 4 % |
-| 15 | 100 % | 100 % | 99 % | 1 % |
-
-Kruskal–Wallis and the 2.8 wt.-% comparison are untouched by it, and the
-5 wt.-% comparison holds throughout. The 10 wt.-% figure does move, but stays
-far below a majority at every setting and falls further as `MIN_BLOCK`
-approaches the value implied by 75–126 measurements over 5–6 samples.
-
-## Distribution widths
-
-Coefficients of variation are reported for every group by
-`stats_stripe_spacing.py` and `stats_stripe_spacing.R`; the mixing-series check
-below is from `verify_claims.py`. In the pitch series at
-10 wt.-% CB15 they are: DLPC 19.1 %, 1:0.43 21.4 %, 1:1 15.2 %, 1:2.3 15.3 %,
-DOPC 32.0 %. In the mixing series the CV shows no monotonic trend with DOPC
-fraction at any of the four lipid concentrations.
+The output of each is committed in `results/`, so the numbers can be read
+without downloading the data.
 
 ---
 

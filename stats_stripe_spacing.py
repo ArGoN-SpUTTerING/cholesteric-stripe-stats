@@ -90,8 +90,10 @@ def require(*paths):
         print("Raw measurements not found:")
         for p in missing:
             print("    " + os.path.relpath(p, HERE))
-        print("\nThey should be in data/ alongside this script. See README.md")
-        print("for the file format and column layout.")
+        print("\nThey are deposited on Dataverse rather than in this repository")
+        print("(see the DOI in README.md). Download into data/ and re-run;")
+        print("no change to any script is needed. data/README.md documents the")
+        print("expected file format.")
         sys.exit(1)
 
 def cv(v):

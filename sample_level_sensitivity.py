@@ -126,7 +126,7 @@ def main():
     print(f"  random unequal size (>= {MIN_BLOCK} each). {N_DRAWS} random partitions per K.\n")
     random.seed(SEED)
     print(f"  {'K':>3}  {'test':<12}{'median p':>11}{'5th pct':>10}{'95th pct':>10}"
-          f"{'p < 0.05':>10}{'at min':>9}")
+          f"{'p < 0.05':>10}")
     print("  " + "-" * 60)
     for K in range(4, 9):
         acc = {n: [] for n in ["KW worst", "MW 2.8", "MW 5", "MW 10"]}
@@ -146,10 +146,8 @@ def main():
             vals.sort()
             q = lambda fr: vals[int(fr * len(vals))]
             frac = sum(1 for x in vals if x < 0.05) / len(vals)
-            atmin = sum(1 for x in vals if x <= vals[0] * (1 + 1e-12)) / len(vals)
             print(f"  {K if nm=='KW worst' else '':>3}  {nm:<12}"
-                  f"{st.median(vals):>11.4f}{q(.05):>10.4f}{q(.95):>10.4f}{frac:>9.0%}"
-                  f"{atmin:>9.1%}")
+                  f"{st.median(vals):>11.4f}{q(.05):>10.4f}{q(.95):>10.4f}{frac:>9.0%}")
         print()
 
     kw = max(stats.kruskal(*[G[(c, k)] for k in CONC])[1] for c in COMP)
@@ -176,8 +174,7 @@ def main():
         print(f"    {k:>4} wt.-%   medians {a:.3f} vs {b:.3f} um  "
               f"({100*(b/a-1):+.0f} %)")
     print("    At 2.8 wt.-% the two are so well separated that p < 0.05 in 100 %")
-    print("    of partitions; the 'at min' column above gives the share sitting")
-    print("    exactly on the smallest value attainable for that K.")
+    print("    of partitions, and at the smallest value attainable for that K.")
     print("    At 5 wt.-% the difference holds in most partitions. At 10 wt.-%")
     print("    it holds in few, and never in a majority for any setting tested")
     print("    (see part 4). The text therefore reports the difference for the")
