@@ -83,9 +83,11 @@ repeats the analysis over many random partitions, sweeping both the number of
 blocks and the minimum block size rather than fixing either.
 
 The Kruskal–Wallis result is unaffected — significant in every partition
-tested. The Mann–Whitney comparison holds at 2.8 and 5 wt.-% CB15 but not at
-10 wt.-%, where the sample-level *p* is around 0.15. The manuscript reports
-that comparison for the two longer pitches only.
+tested — but all the *p*-values grow by many orders of magnitude, to roughly
+0.001–0.016. The manuscript therefore reports *p* < 0.05, which holds under
+either choice of unit. The Mann–Whitney comparison holds at 2.8 and 5 wt.-%
+CB15 but not at 10 wt.-%, where the sample-level *p* is around 0.15, so the
+manuscript reports that comparison for the two longer pitches only.
 
 ---
 

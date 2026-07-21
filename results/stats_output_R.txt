@@ -31,25 +31,25 @@ DOPC                  10   100    0.467    0.475   0.152    32.0
 TEST 1   Kruskal-Wallis across CB15 (2.8 / 5 / 10 wt.-%)
          run separately for each lipid composition
 ==============================================================
-  DLPC               n = 126, 126, 100   H =  310.541   p = 3.688e-68   p < 0.001
-  DLPC:DOPC 1:0.43   n =  75, 126, 100   H =  255.413   p = 3.450e-56   p < 0.001
-  DLPC:DOPC 1:1      n =  92, 126, 100   H =  279.518   p = 2.011e-61   p < 0.001
-  DLPC:DOPC 1:2.3    n =  76, 126, 100   H =  261.688   p = 1.497e-57   p < 0.001
-  DOPC               n = 123, 100, 100   H =  268.708   p = 4.474e-59   p < 0.001
+  DLPC               n = 126, 126, 100   H =  310.541   p = 3.688e-68   p < 0.05
+  DLPC:DOPC 1:0.43   n =  75, 126, 100   H =  255.413   p = 3.450e-56   p < 0.05
+  DLPC:DOPC 1:1      n =  92, 126, 100   H =  279.518   p = 2.011e-61   p < 0.05
+  DLPC:DOPC 1:2.3    n =  76, 126, 100   H =  261.688   p = 1.497e-57   p < 0.05
+  DOPC               n = 123, 100, 100   H =  268.708   p = 4.474e-59   p < 0.05
 
 ==============================================================
 TEST 2   Mann-Whitney U (two-sided), pure DLPC vs pure DOPC
          run separately at each CB15 concentration
 ==============================================================
-  CB15  2.8 wt.-%   n = 126 vs 123   median 2.462 vs 4.813   W =     156.5   p = 1.021e-40   p < 0.001
-  CB15    5 wt.-%   n = 126 vs 100   median 0.960 vs 0.777   W =   10093.5   p = 7.994e-15   p < 0.001
-  CB15   10 wt.-%   n = 100 vs 100   median 0.353 vs 0.467   W =    2809.0   p = 8.677e-08   p < 0.001
+  CB15  2.8 wt.-%   n = 126 vs 123   median 2.462 vs 4.813   W =     156.5   p = 1.021e-40   p < 0.05
+  CB15    5 wt.-%   n = 126 vs 100   median 0.960 vs 0.777   W =   10093.5   p = 7.994e-15   p < 0.05
+  CB15   10 wt.-%   n = 100 vs 100   median 0.353 vs 0.467   W =    2809.0   p = 8.677e-08   p < 0.05
 
 ==============================================================
 SUMMARY
 ==============================================================
-  Test 1: p < 0.001 for all five compositions.
-  Test 2: p < 0.001 at all three CB15 concentrations.
+  Test 1: p < 0.05 for all five compositions.
+  Test 2: p < 0.05 at all three CB15 concentrations.
 
   These p-values treat each measurement as one observation. The
   measurements are clustered within samples, and on a sample-level

@@ -45,9 +45,8 @@
 # --- read data ---------------------------------------------------------------
 if (!file.exists("data/pitch_series.txt")) {
   stop("Raw measurements not found: data/pitch_series.txt\n",
-       "  They are deposited on Dataverse rather than in this repository\n",
-       "  (see the DOI in README.md). Download into data/ and re-run;\n",
-       "  no change to any script is needed.", call. = FALSE)
+       "  They should be in data/ alongside this script.\n",
+       "  See README.md for the file format.", call. = FALSE)
 }
 
 d <- read.table("data/pitch_series.txt", sep = "\t", header = FALSE,
@@ -101,7 +100,7 @@ for (i in seq_along(compositions)) {
               compositions[i],
               length(groups[[1]]), length(groups[[2]]), length(groups[[3]]),
               kt$statistic, kt$p.value,
-              if (kt$p.value < 0.001) "p < 0.001" else "p >= 0.001  <-- NOT significant"))
+              if (kt$p.value < 0.05) "p < 0.05" else "p >= 0.05  <-- NOT significant"))
 }
 
 # --- TEST 2: Mann-Whitney U, pure DLPC vs pure DOPC, per CB15 -----------------
@@ -116,14 +115,14 @@ for (j in 1:3) {
   cat(sprintf("  CB15 %4s wt.-%%   n = %d vs %-5d median %.3f vs %.3f   W = %9.1f   p = %.3e   %s\n",
               concs[j], length(a), length(b), median(a), median(b),
               wt$statistic, wt$p.value,
-              if (wt$p.value < 0.001) "p < 0.001" else "p >= 0.001  <-- NOT significant"))
+              if (wt$p.value < 0.05) "p < 0.05" else "p >= 0.05  <-- NOT significant"))
 }
 
 cat("\n==============================================================\n")
 cat("SUMMARY\n")
 cat("==============================================================\n")
-cat("  Test 1: p < 0.001 for all five compositions.\n")
-cat("  Test 2: p < 0.001 at all three CB15 concentrations.\n\n")
+cat("  Test 1: p < 0.05 for all five compositions.\n")
+cat("  Test 2: p < 0.05 at all three CB15 concentrations.\n\n")
 cat("  These p-values treat each measurement as one observation. The\n")
 cat("  measurements are clustered within samples, and on a sample-level\n")
 cat("  recomputation Test 1 is unchanged while Test 2 holds only at 2.8\n")

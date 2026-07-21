@@ -41,12 +41,12 @@ t-tests / ANOVA.
   Test 1  Kruskal-Wallis H, across CB15 = 2.8 / 5 / 10 wt.-%, run separately
           for each of the five lipid compositions.
           -> supports: "Increasing CB15 concentration reduces the stripe
-             spacing for every lipid composition (p < 0.001 for each)".
+             spacing for every lipid composition (p < 0.05 for each)".
 
   Test 2  Mann-Whitney U (two-sided), pure DLPC vs pure DOPC, run separately
           at each CB15 concentration.
           -> supports: "the median spacing differs significantly between pure
-             DLPC and pure DOPC at each pitch (p < 0.001)".
+             DLPC and pure DOPC at 2.8 and 5 wt.-% CB15 (p < 0.05)".
 
 Run:  python3 stats_stripe_spacing.py
 """
@@ -90,10 +90,8 @@ def require(*paths):
         print("Raw measurements not found:")
         for p in missing:
             print("    " + os.path.relpath(p, HERE))
-        print("\nThey are deposited on Dataverse rather than in this repository")
-        print("(see the DOI in README.md). Download into data/ and re-run;")
-        print("no change to any script is needed. data/README.md documents the")
-        print("expected file format.")
+        print("\nThey should be in data/ alongside this script. See README.md")
+        print("for the file format and column layout.")
         sys.exit(1)
 
 def cv(v):
@@ -101,7 +99,7 @@ def cv(v):
 
 
 def fmt_p(p):
-    return f"{p:.3e}" + ("   p < 0.001" if p < 0.001 else "   p >= 0.001  <-- NOT significant")
+    return f"{p:.3e}" + ("   p < 0.05" if p < 0.05 else "   p >= 0.05  <-- NOT significant")
 
 
 def main():
@@ -187,8 +185,8 @@ def main():
     print("\n" + "=" * 76)
     print("SUMMARY")
     print("=" * 76)
-    print("  Test 1: p < 0.001 for all five compositions.")
-    print("  Test 2: p < 0.001 at all three CB15 concentrations.")
+    print("  Test 1: p < 0.05 for all five compositions.")
+    print("  Test 2: p < 0.05 at all three CB15 concentrations.")
     print()
     print("  These p-values treat each measurement as one observation. The")
     print("  measurements are clustered within samples, and on a sample-level")
