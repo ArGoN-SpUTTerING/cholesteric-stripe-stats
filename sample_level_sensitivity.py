@@ -12,7 +12,8 @@ TWO PARTS
 ---------
 1. Evidence of clustering, taken from the data alone.
    The lag-1 autocorrelation of each column. If the measurements were in
-   random order this would be ~0 (one standard error is 1/sqrt(n) ~ 0.09).
+   random order this would be ~0 (one standard error is 1/sqrt(n), which
+   differs by column because n does).
 
 2. Sensitivity analysis.
    Samples were measured one at a time, so all measurements from one sample are
@@ -101,17 +102,20 @@ def main():
     print("=" * 78)
     print("1.  ARE THE MEASUREMENTS INDEPENDENT?  lag-1 autocorrelation per column")
     print("=" * 78)
-    print(f"  {'composition':<10}" + "".join(f"{k + ' wt.-%':>12}" for k in CONC))
-    worst = 1.0
+    print("  Each column against its own n. One standard error is 1/sqrt(n),")
+    print("  so the multiple below is what matters, not the raw correlation.\n")
+    print(f"  {'composition':<10}{'CB15':>7}{'n':>6}{'acf':>8}{'1/sqrt(n)':>11}{'x SE':>8}")
+    mult = []
     for c in COMP:
-        vals = [acf1(G[(c, k)]) for k in CONC]
-        worst = min(worst, min(vals))
-        print(f"  {c:<10}" + "".join(f"{v:>12.3f}" for v in vals))
-    n = min(len(v) for v in G.values())
-    print(f"\n  Random ordering would give ~0; one standard error is "
-          f"1/sqrt(n) = {1/n**0.5:.3f}.")
-    print(f"  The smallest value above is {worst:.3f}, i.e. {worst*n**0.5:.1f} "
-          f"standard errors.")
+        for k in CONC:
+            v = G[(c, k)]
+            a, se = acf1(v), 1 / len(v) ** 0.5
+            mult.append(a / se)
+            print(f"  {c:<10}{k:>7}{len(v):>6}{a:>8.3f}{se:>11.3f}{a/se:>8.2f}")
+    print(f"\n  Autocorrelations span {min(acf1(G[(c, k)]) for c in COMP for k in CONC):.3f}"
+          f"-{max(acf1(G[(c, k)]) for c in COMP for k in CONC):.3f};")
+    print(f"  every column is at least {min(mult):.1f} standard errors from zero "
+          f"(largest {max(mult):.1f}).")
     print("  The measurements are therefore strongly clustered in file order.")
 
     print("\n" + "=" * 78)
@@ -122,7 +126,7 @@ def main():
     print(f"  random unequal size (>= {MIN_BLOCK} each). {N_DRAWS} random partitions per K.\n")
     random.seed(SEED)
     print(f"  {'K':>3}  {'test':<12}{'median p':>11}{'5th pct':>10}{'95th pct':>10}"
-          f"{'p < 0.05':>10}")
+          f"{'p < 0.05':>10}{'at min':>9}")
     print("  " + "-" * 60)
     for K in range(4, 9):
         acc = {n: [] for n in ["KW worst", "MW 2.8", "MW 5", "MW 10"]}
@@ -142,8 +146,10 @@ def main():
             vals.sort()
             q = lambda fr: vals[int(fr * len(vals))]
             frac = sum(1 for x in vals if x < 0.05) / len(vals)
+            atmin = sum(1 for x in vals if x <= vals[0] * (1 + 1e-12)) / len(vals)
             print(f"  {K if nm=='KW worst' else '':>3}  {nm:<12}"
-                  f"{st.median(vals):>11.4f}{q(.05):>10.4f}{q(.95):>10.4f}{frac:>9.0%}")
+                  f"{st.median(vals):>11.4f}{q(.05):>10.4f}{q(.95):>10.4f}{frac:>9.0%}"
+                  f"{atmin:>9.1%}")
         print()
 
     kw = max(stats.kruskal(*[G[(c, k)] for k in CONC])[1] for c in COMP)
@@ -170,7 +176,8 @@ def main():
         print(f"    {k:>4} wt.-%   medians {a:.3f} vs {b:.3f} um  "
               f"({100*(b/a-1):+.0f} %)")
     print("    At 2.8 wt.-% the two are so well separated that p < 0.05 in 100 %")
-    print("    of partitions, 98.5-99.6 % of them at the minimum for that K.")
+    print("    of partitions; the 'at min' column above gives the share sitting")
+    print("    exactly on the smallest value attainable for that K.")
     print("    At 5 wt.-% the difference holds in most partitions. At 10 wt.-%")
     print("    it holds in few, and never in a majority for any setting tested")
     print("    (see part 4). The text therefore reports the difference for the")

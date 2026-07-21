@@ -116,18 +116,17 @@ The reported values do not depend on any single implementation:
 | R 4.6.1, `kruskal.test` / `wilcox.test` | 310.5411 | 156.5 |
 | Textbook formula, computed by hand | 310.5411 | 156.5 |
 
-The two statistics above are identical. Seven of the eight *p*-values agree to
+The two test statistics above are identical. Seven of the eight *p*-values agree to
 four significant figures. The exception is Mann–Whitney at 5 wt.-%: SciPy gives
 7.893 × 10⁻¹⁵ and R 7.994 × 10⁻¹⁵, a difference of 1.3 %.
 
-That gap is floating-point rounding, not a difference in method. R forms the
-two-sided *p* as 2 × (1 − Φ(*z*)). At *z* = 7.769 the true upper tail is
-3.9465 × 10⁻¹⁵, but Φ(*z*) lies just below 1.0, where doubles are spaced
-1.1102 × 10⁻¹⁶ apart (2⁻⁵³, half the spacing above 1.0). The tail therefore
-occupies 35.5 of those steps and the subtraction can only return 36 of them —
-3.9968 × 10⁻¹⁵, which doubles to exactly the 7.9936 × 10⁻¹⁵ that R reports. SciPy evaluates the upper tail directly with `sf()` and never performs
-that subtraction, so its value is the more accurate of the two. Both are of
-order 10⁻¹⁵ and nothing depends on the difference.
+That gap is rounding, not a difference in method. R obtains the two-sided *p*
+by subtracting the cumulative probability from 1, and at a *p* of this size
+that probability is so close to 1 that almost all of the precision is lost in
+the subtraction — the two values agree only in their first significant
+figure. SciPy evaluates the tail directly and avoids the subtraction, so its
+value is the more accurate one. Both are of order 10⁻¹⁵ and no conclusion
+depends on which is used.
 
 ---
 
@@ -140,9 +139,8 @@ samples. `sample_level_sensitivity.py` quantifies what this costs, and reports
 two things.
 
 The clustering is visible in the data alone: the lag-1 autocorrelation of the
-measurement columns is 0.28–0.79, against ~0 for a random ordering (one
-standard error is 1/√n, i.e. 0.089 for the n = 126 columns and 0.115 for the
-smallest, n = 75).
+measurement columns is 0.28–0.79, where a random ordering would give about
+zero; every column is at least 2.8 standard errors from zero.
 
 Samples were measured one at a time, so a sample's measurements are contiguous
 in the file, and different samples contributed different numbers of
@@ -176,7 +174,8 @@ approaches the value implied by 75–126 measurements over 5–6 samples.
 ## Distribution widths
 
 Coefficients of variation are reported for every group by
-`stats_stripe_spacing.py` and `stats_stripe_spacing.R`. In the pitch series at
+`stats_stripe_spacing.py` and `stats_stripe_spacing.R`; the mixing-series check
+below is from `verify_claims.py`. In the pitch series at
 10 wt.-% CB15 they are: DLPC 19.1 %, 1:0.43 21.4 %, 1:1 15.2 %, 1:2.3 15.3 %,
 DOPC 32.0 %. In the mixing series the CV shows no monotonic trend with DOPC
 fraction at any of the four lipid concentrations.

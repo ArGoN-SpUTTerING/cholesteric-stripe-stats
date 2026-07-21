@@ -90,10 +90,8 @@ def require(*paths):
         print("Raw measurements not found:")
         for p in missing:
             print("    " + os.path.relpath(p, HERE))
-        print("\nThey are deposited on Dataverse rather than in this repository")
-        print("(see the DOI in README.md). Download them into data/ and re-run;")
-        print("no change to any script is needed. data/README.md documents the")
-        print("expected file format.")
+        print("\nThey should be in data/ alongside this script. See README.md")
+        print("for the file format and column layout.")
         sys.exit(1)
 
 def cv(v):
@@ -159,6 +157,30 @@ def main():
         print(f"  CB15 {k:>4} wt.-%   n = {len(a)} vs {len(b):<5} "
               f"median {st.median(a):.3f} vs {st.median(b):.3f}   "
               f"U = {U:9.1f}   {fmt_p(p)}")
+
+    # ------------------------------------------------------- hand derivation
+    print("\n" + "=" * 76)
+    print("HOW THE STATISTICS ARISE  (so they can be checked by hand)")
+    print("=" * 76)
+    a, b = g[("DLPC", "2.8")], g[("DOPC", "2.8")]
+    wins = sum(1 for x in a for y in b if x > y)
+    tied = sum(1 for x in a for y in b if x == y)
+    print(f"  Mann-Whitney U at 2.8 wt.-% CB15")
+    print(f"    {len(a)} x {len(b)} = {len(a)*len(b)} DLPC-DOPC pairs")
+    print(f"    DLPC larger in {wins}, tied in {tied}, DOPC larger in "
+          f"{len(a)*len(b)-wins-tied}")
+    print(f"    U = {wins} + {tied}/2 = {wins + tied/2}"
+          f"   ({100*wins/(len(a)*len(b)):.1f} % of pairs won by DLPC)")
+    c = "DLPC"
+    pool = sorted((x, j) for j, k in enumerate(CONCS) for x in g[(c, k)])
+    ranks = {}
+    for r, (_, j) in enumerate(pool, 1):
+        ranks.setdefault(j, []).append(r)
+    N = len(pool)
+    print(f"\n  Kruskal-Wallis for {c}: pool the {N} measurements and rank them 1-{N}")
+    for j, k in enumerate(CONCS):
+        print(f"    CB15 {k:>4} wt.-%   mean rank {st.mean(ranks[j]):8.4f}")
+    print(f"    expected under the null: (N+1)/2 = {(N+1)/2}")
 
     print("\n" + "=" * 76)
     print("SUMMARY")
