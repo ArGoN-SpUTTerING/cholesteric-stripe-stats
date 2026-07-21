@@ -7,6 +7,11 @@ authors:
     given-names: "Mengwei"
 version: 1.0.0
 date-released: 2026-07-21
+doi: 10.5281/zenodo.21477799
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21477798
+    description: "Concept DOI resolving to the latest version"
 license: MIT
 repository-code: "https://github.com/ArGoN-SpUTTerING/cholesteric-stripe-stats"
 abstract: >-
