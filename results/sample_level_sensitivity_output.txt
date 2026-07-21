@@ -1,0 +1,56 @@
+==============================================================================
+1.  ARE THE MEASUREMENTS INDEPENDENT?  lag-1 autocorrelation per column
+==============================================================================
+  composition   2.8 wt.-%     5 wt.-%    10 wt.-%
+  DLPC             0.612       0.667       0.501
+  1:0.43           0.486       0.740       0.457
+  1:1              0.647       0.648       0.532
+  1:2.3            0.495       0.596       0.282
+  DOPC             0.663       0.553       0.792
+
+  Random ordering would give ~0; one standard error is 1/sqrt(n) = 0.115.
+  The smallest value above is 0.282, i.e. 2.4 standard errors.
+  The measurements are therefore strongly clustered in file order.
+
+==============================================================================
+2.  SENSITIVITY:  p-values when the unit is the sample, not the measurement
+==============================================================================
+  Each column is cut into K equal contiguous blocks; the median of each
+  block stands in for one sample. K is swept because the true sample of
+  origin is not recorded.
+
+    K |  Kruskal-Wallis |   Mann-Whitney U, pure DLPC vs pure DOPC
+      |    (worst of 5) |     2.8 wt.-%      5 wt.-%     10 wt.-%
+  --------------------------------------------------------------------------
+    3 |         0.0273* |       0.1000       0.1000       0.4000 
+    4 |         0.0073* |       0.0286*      0.0286*      0.3429 
+    5 |         0.0019* |       0.0079*      0.0159*      0.1508 
+    6 |         0.0006* |       0.0022*      0.0043*      0.1797 
+    7 |         0.0002* |       0.0006*      0.0111*      0.2243 
+    8 |         0.0001* |       0.0002*      0.0006*      0.0585 
+    9 |         0.0000* |       0.0004*      0.0047*      0.0774 
+   10 |         0.0000* |       0.0002*      0.0046*      0.0695 
+   11 |         0.0000* |       0.0001*      0.0009*      0.1006 
+   12 |         0.0000* |       0.0000*      0.0029*      0.0351*
+  --------------------------------------------------------------------------
+  * p < 0.05
+
+  For comparison, per measurement (what the manuscript reports):
+      |         3.5e-56 |       1.0e-40      7.9e-15      8.7e-08
+
+==============================================================================
+3.  WHAT THIS MEANS FOR THE TEXT
+==============================================================================
+  Kruskal-Wallis (pitch controls stripe spacing)
+    Significant at every K tested. At K = 5 the p-value is 0.0019,
+    which is the smallest value attainable with five samples per
+    group -- the blocks separate completely. The conclusion does not
+    depend on the choice of statistical unit.
+
+  Mann-Whitney (pure DLPC vs pure DOPC)
+     2.8 wt.-%   medians 2.462 vs 4.813 um  (+95 %)
+       5 wt.-%   medians 0.960 vs 0.777 um  (-19 %)
+      10 wt.-%   medians 0.353 vs 0.467 um  (+32 %)
+    The difference is large at 2.8 wt.-% and survives at 5 wt.-%, but
+    at 10 wt.-% it is not significant at any K below 12. The text
+    therefore reports the difference for the two longer pitches only.

@@ -36,11 +36,14 @@ CLAIMS  -  Fig. 3F
     -> SUPPORTED
 
 [3] text: "median spacing differs significantly between pure DLPC
-    and pure DOPC at each pitch (Mann-Whitney U, p < 0.001)"
+    and pure DOPC at the longer pitches (2.8 and 5 wt.-% CB15),
+    with the difference becoming small at the shortest pitch"
     CB15  2.8 wt.-%   p = 1.021e-40
     CB15    5 wt.-%   p = 7.893e-15
     CB15   10 wt.-%   p = 8.677e-08
-    -> SUPPORTED
+    -> SUPPORTED   (per measurement)
+    The unit of these tests is the individual measurement, not the
+    sample; sample_level_sensitivity.py reports the sample-level result.
 
 [4] text (2.8 wt.-%): "DOPC ... relative variation is comparable to
     that of the DLPC systems (CV ~ 20%)"

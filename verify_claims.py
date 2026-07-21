@@ -106,10 +106,13 @@ def main():
     pm = [stats.mannwhitneyu(G[("DLPC", k)], G[("DOPC", k)],
                              alternative="two-sided")[1] for k in CONC]
     print(f"\n[3] text: \"median spacing differs significantly between pure DLPC")
-    print(f"    and pure DOPC at each pitch (Mann-Whitney U, p < 0.001)\"")
+    print(f"    and pure DOPC at the longer pitches (2.8 and 5 wt.-% CB15),")
+    print(f"    with the difference becoming small at the shortest pitch\"")
     for k, q in zip(CONC, pm):
         print(f"    CB15 {k:>4} wt.-%   p = {q:.3e}")
-    print(f"    -> {VERDICT[max(pm) < 1e-3]}")
+    print(f"    -> {VERDICT[max(pm[:2]) < 1e-3]}   (per measurement)")
+    print(f"    The unit of these tests is the individual measurement, not the")
+    print(f"    sample; sample_level_sensitivity.py reports the sample-level result.")
 
     c28 = {c: cv(G[(c, "2.8")]) for c in COMP}
     close = abs(c28["DOPC"] - c28["DLPC"]) < 3
@@ -182,7 +185,8 @@ def main():
     tex = os.environ.get("MANUSCRIPT_TEX", "")
     # wordings that the measurements do not support
     unsupported = ["DOPC-rich systems become distinctly broader",
-                   "broader spacing distributions"]
+                   "broader spacing distributions",
+                   "pure DOPC at each pitch"]
     if os.path.exists(tex):
         src = open(tex, encoding="utf-8", errors="replace").read()
         for phrase in unsupported:

@@ -70,6 +70,8 @@ because none would change any conclusion: the largest *p* value below is
 | 5 wt.-% CB15 | 10093.5 | 7.9 × 10⁻¹⁵ |
 | 10 wt.-% CB15 | 2809.0 | 8.7 × 10⁻⁸ |
 
+These are per measurement. See *Choice of statistical unit* below.
+
 The *U* statistic is directly interpretable. At 2.8 wt.-% CB15 there are
 126 × 123 = 15 498 DLPC–DOPC pairs; DLPC is the larger of the pair in 156 of
 them and tied in 1, giving *U* = 156 + 1/2 = 156.5.
@@ -87,6 +89,9 @@ Rscript stats_stripe_spacing.R
 
 # check every quantitative claim in the manuscript against the data
 python3 verify_claims.py
+
+# p-values when the statistical unit is the sample, not the measurement
+python3 sample_level_sensitivity.py
 ```
 
 The outputs obtained from the deposited data are committed in `results/`, so
@@ -116,6 +121,26 @@ come from how each implementation applies the tie correction and do not affect
 any conclusion.
 
 ---
+
+## Choice of statistical unit
+
+The tests treat each peak-to-peak distance as one observation. Those distances
+are not independent: several are read from each line, several lines are drawn
+per image, and all measurements for one condition come from roughly 5–6
+samples. `sample_level_sensitivity.py` quantifies what this costs, and reports
+two things.
+
+The clustering is visible in the data alone: the lag-1 autocorrelation of the
+measurement columns is 0.28–0.79, against ~0 for a random ordering (one
+standard error is 0.09).
+
+Cutting each column into *K* equal contiguous blocks and using block medians as
+sample values, the Kruskal–Wallis result is significant at every *K* from 3 to
+12 — at *K* = 5 its *p* of 0.0019 is the smallest value attainable with five
+samples per group. The Mann–Whitney comparison of pure DLPC against pure DOPC
+holds at 2.8 and 5 wt.-% CB15 but not at 10 wt.-%, where the sample-level *p*
+is 0.06–0.34. The manuscript reports that comparison for the two longer pitches
+only.
 
 ## Distribution widths
 
