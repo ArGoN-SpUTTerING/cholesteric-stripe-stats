@@ -1,0 +1,5 @@
+# Raw measurements are distributed via Dataverse, not through git.
+data/*.txt
+__pycache__/
+.Rhistory
+.DS_Store

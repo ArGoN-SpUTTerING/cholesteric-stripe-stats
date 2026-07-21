@@ -1,0 +1,98 @@
+==============================================================================
+DATA  -  Fig. 3F (pitch series)
+==============================================================================
+composition  CB15     n   median    CV %
+DLPC         2.8   126    2.462    18.8
+DLPC           5   126    0.960    22.0
+DLPC          10   100    0.353    19.1
+1:0.43       2.8    75    2.701    14.9
+1:0.43         5   126    0.754    27.9
+1:0.43        10   100    0.420    21.4
+1:1          2.8    92    2.689    19.6
+1:1            5   126    0.772    24.6
+1:1           10   100    0.344    15.2
+1:2.3        2.8    76    3.034    17.5
+1:2.3          5   126    1.066    32.2
+1:2.3         10   100    0.357    15.3
+DOPC         2.8   123    4.813    19.6
+DOPC           5   100    0.777    18.9
+DOPC          10   100    0.467    32.0
+
+==============================================================================
+CLAIMS  -  Fig. 3F
+==============================================================================
+
+[1] caption: "n ~ 75-126 per box"
+    measured range: 75-126
+    -> SUPPORTED
+
+[2] text: "Increasing CB15 reduces the stripe spacing for every
+    lipid composition (Kruskal-Wallis, p < 0.001 for each)"
+    DLPC     p = 3.688e-68
+    1:0.43   p = 3.450e-56
+    1:1      p = 2.011e-61
+    1:2.3    p = 1.497e-57
+    DOPC     p = 4.474e-59
+    -> SUPPORTED
+
+[3] text: "median spacing differs significantly between pure DLPC
+    and pure DOPC at each pitch (Mann-Whitney U, p < 0.001)"
+    CB15  2.8 wt.-%   p = 1.021e-40
+    CB15    5 wt.-%   p = 7.893e-15
+    CB15   10 wt.-%   p = 8.677e-08
+    -> SUPPORTED
+
+[4] text (2.8 wt.-%): "DOPC ... relative variation is comparable to
+    that of the DLPC systems (CV ~ 20%)"
+    DLPC=18.8%  1:0.43=14.9%  1:1=19.6%  1:2.3=17.5%  DOPC=19.6%
+    -> SUPPORTED
+
+[5] text (5 wt.-%): "CV ~ 19-32%. Pure DOPC has the narrowest
+    relative distribution and the DOPC-rich mixture the broadest"
+    DLPC=22.0%  1:0.43=27.9%  1:1=24.6%  1:2.3=32.2%  DOPC=18.9%
+    measured range 18.9-32.2%, narrowest = DOPC, broadest = 1:2.3
+    -> SUPPORTED
+
+[6] text (10 wt.-%): "pure DOPC exhibits a broader relative distribution"
+    DLPC=19.1%  1:0.43=21.4%  1:1=15.2%  1:2.3=15.3%  DOPC=32.0%
+    broadest = DOPC (32.0%)
+    -> SUPPORTED
+
+[7] conclusion: "pure DOPC becomes distinctly broader at
+    10 wt.-% CB15"
+    DLPC=19.1%  1:0.43=21.4%  1:1=15.2%  1:2.3=15.3%  DOPC=32.0%
+    pure DOPC = 32.0%, next broadest = 21.4%
+    -> SUPPORTED
+    (the DOPC-rich mixture 1:2.3 is at 15.3%, among the narrowest)
+
+==============================================================================
+DATA  -  Fig. 2D (mixing series)
+==============================================================================
+ratio                       1 uM       10 uM       30 uM       50 uM
+1:0.43 (DLPC-rich)        17.2%       14.9%       17.3%       40.5% 
+1:1                       39.4%       19.6%       27.1%       17.8% 
+1:2.3 (DOPC-rich)         13.5%       17.5%       16.4%       29.2% 
+(n)                          75          75          80          28 
+
+==============================================================================
+CLAIMS  -  Fig. 2D
+==============================================================================
+
+[8] distribution width vs DOPC fraction (mixing series)
+     1 uM: 17.2%  39.4%  13.5%   no monotonic trend
+    10 uM: 14.9%  19.6%  17.5%   no monotonic trend
+    30 uM: 17.3%  27.1%  16.4%   no monotonic trend
+    50 uM: 40.5%  17.8%  29.2%   no monotonic trend
+    monotonic in 0 of 4 concentrations
+    -> no systematic dependence of distribution width on DOPC fraction;
+       the text accordingly reports only the image-based observations
+
+==============================================================================
+TEXT CONSISTENCY  -  wording checked against the data
+==============================================================================
+  skipped - set MANUSCRIPT_TEX=/path/to/manuscript.tex to enable
+
+==============================================================================
+All quantitative statements currently in the manuscript are
+reproduced by these measurements.
+==============================================================================
